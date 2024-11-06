@@ -10,7 +10,7 @@ namespace MiniMarket.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddDbContext<MiniMarketDbContext>(cfg=>
+            builder.Services.AddDbContext<MiniMarketDbContext>(cfg =>
              cfg.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
@@ -19,6 +19,12 @@ namespace MiniMarket.Api
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            // временный костыль для создания БД 
+            using var scope = app.Services.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<MiniMarketDbContext>();
+            service.Database.EnsureCreated();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

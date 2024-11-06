@@ -9,11 +9,8 @@ namespace MiniMarket.Domain.Context
     {
         public DbSet<Product> Products => Set<Product>();
 
-        public MiniMarketDbContext(DbContextOptions<MiniMarketDbContext> options) : base(options)
-        {
-            // без миграций
-            Database.EnsureCreated();
-        }
+        public MiniMarketDbContext(DbContextOptions<MiniMarketDbContext> options) : base(options) { }
+
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -40,13 +37,5 @@ namespace MiniMarket.Domain.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if(!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=MiniMarketDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        //    }
-        //    base.OnConfiguring(optionsBuilder);
-        //}
     }
 }
