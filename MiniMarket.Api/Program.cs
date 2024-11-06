@@ -1,4 +1,4 @@
-
+using Microsoft.EntityFrameworkCore;
 using MiniMarket.Domain.Context;
 
 namespace MiniMarket.Api
@@ -10,7 +10,8 @@ namespace MiniMarket.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddDbContext<MiniMarketDbContext>();
+            builder.Services.AddDbContext<MiniMarketDbContext>(cfg=>
+             cfg.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

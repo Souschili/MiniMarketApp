@@ -40,13 +40,13 @@ namespace MiniMarket.Domain.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if(!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=MiniMarketDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            }
-            base.OnConfiguring(optionsBuilder);
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if(!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=MiniMarketDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        //    }
+        //    base.OnConfiguring(optionsBuilder);
+        //}
     }
 }
