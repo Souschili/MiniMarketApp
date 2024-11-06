@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MiniMarket.Domain.Entity;
-using System.Data;
+using MiniMarket.Domain.Entity.EntityConfiguration;
+using System.Reflection;
 
 namespace MiniMarket.Domain.Context
 {
@@ -31,6 +31,22 @@ namespace MiniMarket.Domain.Context
                 }
             }
             return base.SaveChangesAsync(cancellationToken);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if(!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=MiniMarketDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            }
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }
