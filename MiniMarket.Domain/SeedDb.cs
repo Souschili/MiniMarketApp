@@ -7,7 +7,6 @@ namespace MiniMarket.Domain
     public static class SeedDb
     {
 
-
         public static async Task StartSeedAsync(MiniMarketDbContext _context)
         {
             // если есть продуеты то ничего не делаем
