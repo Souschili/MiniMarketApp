@@ -25,6 +25,10 @@ namespace MiniMarket.Domain.Entity.EntityConfiguration
                 .HasMaxLength(50)
                 .HasDefaultValue("None");
 
+            builder.Property(p => p.Description)
+                .HasMaxLength(150)
+                .HasDefaultValue("None");
+
         }
     }
 }

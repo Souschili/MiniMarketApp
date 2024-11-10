@@ -30,7 +30,12 @@ namespace MiniMarket.Domain
             var fakeProduct = new Faker<Product>()
                 .RuleFor(p => p.Name, f => f.Commerce.Product())
                 .RuleFor(p => p.Price, f => Decimal.Parse(f.Commerce.Price(minPrice, maxPrice)))
-                .RuleFor(p => p.Category, f => f.Commerce.Categories(1)[0]);
+                .RuleFor(p => p.Category, f => f.Commerce.Categories(1)[0])
+                .RuleFor(p => p.Description, f => { 
+                
+                    var desc=f.Lorem.Sentence(10);
+                    return desc.Length>150?desc.Substring(0,150):desc;
+                });
 
             var products = fakeProduct.Generate(500);
             return products;
