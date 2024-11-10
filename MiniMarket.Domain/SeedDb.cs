@@ -4,27 +4,27 @@ using MiniMarket.Domain.Entity;
 
 namespace MiniMarket.Domain
 {
-    public class SeedDb
+    public static class SeedDb
     {
-        private readonly MiniMarketDbContext _context;
-        public SeedDb(MiniMarketDbContext context)
-        {
-            this._context = context;
-        }
 
-        public void StartSeed()
+
+        public static async Task StartSeedAsync(MiniMarketDbContext _context)
         {
             // если есть продуеты то ничего не делаем
-            if (!_context.Products.Any())
+            if (_context.Products.Any())
             {
                 return;
             }
 
             // тут генерация продуктов и добавочных таблиц
             var product = GenerateProduct();
+
+            //грузим в базу
+            await _context.AddRangeAsync(product);
+            await _context.SaveChangesAsync();
         }
 
-        private IEnumerable<Product> GenerateProduct()
+        private static IEnumerable<Product> GenerateProduct()
         {
             decimal minPrice = 0.1m;
             decimal maxPrice = 10000m;
@@ -33,7 +33,7 @@ namespace MiniMarket.Domain
                 .RuleFor(p => p.Price, f => Decimal.Parse(f.Commerce.Price(minPrice, maxPrice)))
                 .RuleFor(p => p.Category, f => f.Commerce.Categories(1)[0]);
 
-            var products= fakeProduct.Generate(100);
+            var products = fakeProduct.Generate(100);
             return products;
         }
     }
