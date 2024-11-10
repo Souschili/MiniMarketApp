@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using MiniMarket.Domain;
 using MiniMarket.Domain.Context;
 
 namespace MiniMarket.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +20,19 @@ namespace MiniMarket.Api
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
-            // временный костыль для создания БД 
-            using var scope = app.Services.CreateScope();
-            var service = scope.ServiceProvider.GetRequiredService<MiniMarketDbContext>();
-            service.Database.EnsureCreated();
-
+            try
+            {
+                // временный костыль для создания БД 
+                using var scope = app.Services.CreateScope();
+                var service = scope.ServiceProvider.GetRequiredService<MiniMarketDbContext>();
+                service.Database.EnsureCreated();
+                await SeedDb.StartSeedAsync(service);
+            }
+            catch (Exception ex) { 
+            
+                Console.Error.WriteLine(ex.Message);
+                throw;
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

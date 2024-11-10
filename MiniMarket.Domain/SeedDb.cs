@@ -32,7 +32,7 @@ namespace MiniMarket.Domain
                 .RuleFor(p => p.Price, f => Decimal.Parse(f.Commerce.Price(minPrice, maxPrice)))
                 .RuleFor(p => p.Category, f => f.Commerce.Categories(1)[0]);
 
-            var products = fakeProduct.Generate(100);
+            var products = fakeProduct.Generate(500);
             return products;
         }
     }
