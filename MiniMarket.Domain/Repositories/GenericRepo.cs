@@ -5,8 +5,8 @@ using MiniMarket.Domain.Repositories.Contract;
 
 namespace MiniMarket.Domain.Repositories
 {
-    internal abstract class GenericRepo<TEntity> : IGenericRepo<TEntity>
-        where TEntity : BaseEntity, new()
+    public abstract class GenericRepo<TEntity> : IGenericRepo<TEntity>
+       where TEntity : BaseEntity, new()
     {
         protected readonly MiniMarketDbContext _context;
         public GenericRepo(MiniMarketDbContext context)
