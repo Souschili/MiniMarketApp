@@ -8,6 +8,7 @@ namespace MiniMarket.Domain.Context
     public class MiniMarketDbContext : DbContext
     {
         public DbSet<Product> Products => Set<Product>();
+        public DbSet<User> Users => Set<User>();
 
         public MiniMarketDbContext(DbContextOptions<MiniMarketDbContext> options) : base(options) { }
 
@@ -32,7 +33,7 @@ namespace MiniMarket.Domain.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            //modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
