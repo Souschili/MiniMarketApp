@@ -14,6 +14,12 @@ namespace MiniMarket.Domain.Entity.EntityConfiguration
             builder.Property(x=> x.Login)
                 .HasMaxLength(50)
                 .IsRequired();
+            builder.HasData(new[] 
+            {
+                new User { Id = 1, Login = "Orkhan" },
+                new User { Id = 2, Login = "Sarhan" },
+                new User { Id = 3, Login = "Oktay" },
+            });
         }
     }
 }
