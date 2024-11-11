@@ -5,7 +5,7 @@ using MiniMarket.Domain.Repositories.Contract;
 
 namespace MiniMarket.Domain.Repositories
 {
-    internal class GenericRepo<TEntity> : IGenericRepo<TEntity>
+    internal abstract class GenericRepo<TEntity> : IGenericRepo<TEntity>
         where TEntity : BaseEntity, new()
     {
         protected readonly MiniMarketDbContext _context;
@@ -13,13 +13,13 @@ namespace MiniMarket.Domain.Repositories
         {
             _context = context;
         }
-        public async Task CreateAsync(TEntity entity)
+        public virtual async Task CreateAsync(TEntity entity)
         {
             await _context.Set<TEntity>().AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(int id)
         {
             var obj = await _context.Set<TEntity>().FindAsync(id);
             if (obj == null)
@@ -28,25 +28,26 @@ namespace MiniMarket.Domain.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-           return await _context.Set<TEntity>().AsNoTracking().ToListAsync();
+            return await _context.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public virtual async Task<TEntity> GetByIdAsync(int id)
         {
-            var obj=await _context.Set<TEntity>().FindAsync(id);
-            if (obj==null)
-            throw new Exception($"{nameof(TEntity)} with {id} not found");
+            var obj = await _context.Set<TEntity>().FindAsync(id);
+            if (obj == null)
+                throw new Exception($"{nameof(TEntity)} with {id} not found");
             return obj;
         }
 
-        public async Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
-            var obj = await _context.Set<TEntity>().FindAsync(entity.Id);
-            if (obj == null)
-                throw new Exception($"Unable to update {nameof(TEntity)} with {entity.Id} not exists");
-            _context.Update(obj);
+            // чекаем есть ли объект объект в БД
+            var isPresent = await _context.Set<TEntity>().AnyAsync(x => x.Id == entity.Id);
+            if (!isPresent)
+                throw new Exception($"Unable to update {nameof(TEntity)} with id={entity.Id}. Entity not found.");
+            _context.Set<TEntity>().Update(entity);
             await _context.SaveChangesAsync();
         }
     }
