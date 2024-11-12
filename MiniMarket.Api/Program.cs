@@ -17,6 +17,8 @@ namespace MiniMarket.Api
              cfg.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IProductRepo, ProductRepo>();
+            builder.Services.AddScoped<ICartRepo, CartRepo>();
+            builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
