@@ -1,8 +1,7 @@
 ﻿namespace MiniMarket.Domain.Entity
 {
-    public class CartItem
+    public class CartItem:BaseEntity
     {
-        public int Id { get; set; }
         public int CartId { get; set; }  // ID корзины, к которой привязан товар
         public Cart Cart { get; set; }   // Навигационное свойство для связи с Cart
 
