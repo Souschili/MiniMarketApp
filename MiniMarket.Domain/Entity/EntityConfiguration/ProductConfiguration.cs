@@ -10,6 +10,8 @@ namespace MiniMarket.Domain.Entity.EntityConfiguration
         {
             builder.ToTable(nameof(Product));
 
+            builder.HasKey(x => x.Id);
+
             builder.Property<int>("Id")
                 .ValueGeneratedOnAdd();
 

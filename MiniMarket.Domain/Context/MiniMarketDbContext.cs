@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniMarket.Domain.Entity;
-using MiniMarket.Domain.Entity.EntityConfiguration;
 using System.Reflection;
 
 namespace MiniMarket.Domain.Context
@@ -9,6 +8,8 @@ namespace MiniMarket.Domain.Context
     {
         public DbSet<Product> Products => Set<Product>();
         public DbSet<User> Users => Set<User>();
+        public DbSet<Cart> Carts => Set<Cart>();
+        public DbSet<CartItem> CartItems => Set<CartItem>();
 
         public MiniMarketDbContext(DbContextOptions<MiniMarketDbContext> options) : base(options) { }
 

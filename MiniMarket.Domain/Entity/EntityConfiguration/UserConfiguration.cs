@@ -7,6 +7,10 @@ namespace MiniMarket.Domain.Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable(nameof(User));
+
+            builder.HasKey(x => x.Id);
+
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd()
                 .IsRequired();
